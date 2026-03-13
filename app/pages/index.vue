@@ -347,13 +347,14 @@
       />
     </v-card-text>
 
-    <v-card-actions class="pa-4 pt-0">
-      <v-btn block variant="text" @click="addToCartDialog = false">Cancel</v-btn>
-      <v-btn block variant="flat" color="amber-darken-2" 
-        @click="confirmAddToCart">
-        <v-icon class="mr-1">mdi-cart-plus</v-icon> Add to Cart
-      </v-btn>
-    </v-card-actions>
+   <v-card-actions class="pa-4 pt-0">
+    <v-btn variant="text" @click="addToCartDialog = false">Cancel</v-btn>
+    <v-spacer />
+    <v-btn variant="flat" color="amber-darken-2" 
+      @click="confirmAddToCart">
+      <v-icon class="mr-1">mdi-cart-plus</v-icon> Add to Cart
+    </v-btn>
+  </v-card-actions>
   </v-card>
 </v-dialog>
 
