@@ -314,7 +314,7 @@
 
 <v-dialog v-model="addToCartDialog" max-width="340">
   <v-card rounded="xl">
-    <v-img :src="pendingProduct?.imageUrl" height="120" cover />
+    <v-img :src="pendingProduct?.imageUrl" height="120" contain />
     <v-card-title class="text-subtitle-1 font-weight-bold pt-3">
       {{ pendingProduct?.name }}
     </v-card-title>
