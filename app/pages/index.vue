@@ -77,6 +77,9 @@
             <v-col cols="9" class="px-2 py-1">
                 <p class="text-caption font-weight-bold" style="white-space: normal; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-clamp: 2;">{{ item.name }}</p>
                 <p class="text-caption text-grey">₱{{ item.price }}</p>
+                <p v-if="item.note" class="text-caption text-grey-darken-1 font-italic">
+                  📝 {{ item.note }}
+                </p>
 
                 <!-- Quantity controls -->
                 <v-row no-gutters align="center" class="mt-1">
@@ -306,6 +309,57 @@
      />
   </v-card>
 </v-dialog>
+
+<!--Order Note Addcart-->
+
+<v-dialog v-model="addToCartDialog" max-width="340">
+  <v-card rounded="xl">
+    <v-img :src="pendingProduct?.imageUrl" height="160" cover />
+    <v-card-title class="text-subtitle-1 font-weight-bold pt-3">
+      {{ pendingProduct?.name }}
+    </v-card-title>
+    <v-card-subtitle class="text-amber-darken-2 font-weight-bold">
+      ₱{{ pendingProduct?.price }}
+    </v-card-subtitle>
+
+    <v-card-text>
+      <div class="d-flex align-center mb-4">
+        <span class="text-body-2 mr-3">Quantity:</span>
+        <v-btn icon size="x-small" variant="tonal" 
+          @click="if(pendingQty > 1) pendingQty--">
+          <v-icon size="14">mdi-minus</v-icon>
+        </v-btn>
+        <span class="mx-3 font-weight-bold">{{ pendingQty }}</span>
+        <v-btn icon size="x-small" variant="tonal" color="green"
+          @click="pendingQty++">
+          <v-icon size="14">mdi-plus</v-icon>
+        </v-btn>
+      </div>
+
+      <v-textarea
+        v-model="pendingNote"
+        label="Special Instructions (optional)"
+        placeholder="e.g. Add birthday ribbon, white wrapper..."
+        variant="outlined"
+        density="compact"
+        rows="2"
+        hide-details
+      />
+    </v-card-text>
+
+    <v-card-actions class="pa-4 pt-0">
+      <v-btn block variant="text" @click="addToCartDialog = false">Cancel</v-btn>
+      <v-btn block variant="flat" color="amber-darken-2" 
+        @click="confirmAddToCart">
+        <v-icon class="mr-1">mdi-cart-plus</v-icon> Add to Cart
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+
+<v-snackbar v-model="addedSnackbar" timeout="2000" color="green">
+  🛒 Added to cart!
+</v-snackbar>
 
 <!--SUCCESS CHECKOUT -->
 
@@ -631,20 +685,37 @@ watchEffect(() => {
 //cart logic 
 
 // Cart
-type TCartItem = TProduct & { quantity: number };
+type TCartItem = TProduct & { quantity: number; note:string };
 const cart = ref<TCartItem[]>([]);
+
+const addToCartDialog = ref(false);
+const pendingProduct = ref<TProduct | null>(null);
+const pendingNote = ref('');
+const pendingQty = ref(1);
+const addedSnackbar = ref(false);
 
 const cartCount = computed(() => cart.value.reduce((sum, item) => sum + item.quantity, 0));
 
 const cartTotal = computed(() => cart.value.reduce((sum, item) => sum + (item.price * item.quantity), 0));
 
 function addToCart(product: TProduct){
+  pendingProduct.value = product;
+  pendingNote.value ="";
+  pendingQty.value =1;
+  addToCartDialog.value = true;
+}
+
+function confirmAddToCart() {
+  const product = pendingProduct.value!;
   const existing = cart.value.find(item => item._id === product._id);
-  if(existing){
-    existing.quantity+=1;
-  }else{
-    cart.value.push({ ...product, quantity: 1 });
+  if (existing) {
+    existing.quantity += pendingQty.value;
+    if (pendingNote.value) existing.note = pendingNote.value;
+  } else {
+    cart.value.push({ ...product, quantity: pendingQty.value, note: pendingNote.value });
   }
+  addToCartDialog.value = false;
+  addedSnackbar.value = true;
 }
 
 function removeFromCart(productId: string){
@@ -692,6 +763,7 @@ async function handleSubmitOrder() {
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity,
+                note: item.note || '',
             })),
             totalAmount: cartTotal.value + (orderForm.value.deliveryFee || 0),
             deliveryFee: orderForm.value.deliveryFee || 0,

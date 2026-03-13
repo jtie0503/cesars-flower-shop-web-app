@@ -9,6 +9,7 @@ type TOrder = {
         name: string;
         price: number;
         quantity: number;
+        note?: string;
     }[];
     totalAmount: number;
     note?: string;

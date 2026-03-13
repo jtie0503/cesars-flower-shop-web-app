@@ -44,6 +44,30 @@
                 <v-col cols="12" class="mb-2">
                     <strong>Note:</strong> {{ formModel.note }}
                 </v-col>
+
+                <!-- Items List -->
+                <v-col cols="12" class="mb-2 mt-2">
+                    <strong>Items Ordered:</strong>
+                    <v-card
+                        v-for="item in formModel.items"
+                        :key="item.productId"
+                        class="mt-2 pa-2"
+                        variant="outlined"
+                        rounded="lg"
+                    >
+                        <div class="d-flex justify-space-between">
+                            <span class="text-body-2 font-weight-bold">{{ item.name }}</span>
+                            <span class="text-body-2">x{{ item.quantity }}</span>
+                        </div>
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption text-grey">₱{{ item.price }} each</span>
+                            <span class="text-caption font-weight-bold">₱{{ item.price * item.quantity }}</span>
+                        </div>
+                        <div v-if="item.note" class="mt-1">
+                            <span class="text-caption text-grey-darken-1 font-italic">📝 {{ item.note }}</span>
+                        </div>
+                    </v-card>
+                </v-col>
                 <!-- Current Status chip -->
                 <v-col cols="6" class="mb-2">
                     <strong>Current Status:</strong>
