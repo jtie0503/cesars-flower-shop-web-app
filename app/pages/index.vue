@@ -325,8 +325,8 @@
     <v-card-text>
       <div class="d-flex align-center mb-4">
         <span class="text-body-2 mr-3">Quantity:</span>
-        <v-btn icon size="x-small" variant="tonal" 
-          @click="if(pendingQty > 1) pendingQty--">
+        <v-btn icon size="x-small" variant="tonal"
+          @click="pendingQty > 1 ? pendingQty-- : null">
           <v-icon size="14">mdi-minus</v-icon>
         </v-btn>
         <span class="mx-3 font-weight-bold">{{ pendingQty }}</span>
