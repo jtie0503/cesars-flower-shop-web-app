@@ -338,8 +338,8 @@
 
       <v-textarea
         v-model="pendingNote"
-        label="Special Instructions (optional)"
-        placeholder="e.g. Add birthday ribbon, white wrapper..."
+        label="Card Message(optional)"
+        placeholder="e.g. Happy Aniverssary,Happy Birthday..."
         variant="outlined"
         density="compact"
         rows="2"
