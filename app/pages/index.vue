@@ -772,12 +772,29 @@ async function handleSubmitOrder() {
         });
         checkoutDialog.value = false;
         cart.value = [];
+        resetOrderForm();
         orderSuccess.value = true;
         orderLoading.value = false;
     } catch (error) {
         console.error("Error:", error);
         orderLoading.value = false;
     }
+}
+
+function resetOrderForm() {
+    orderForm.value = {
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        note: "",
+        deliveryDate: "",
+        totalAmount: 0,
+        items: [],
+        status: "pending",
+        location: "",
+        deliveryFee: 0,
+    };
 }
 
 
