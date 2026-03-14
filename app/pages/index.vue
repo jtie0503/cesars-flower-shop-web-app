@@ -683,6 +683,7 @@ watchEffect(() => {
     }
 });
 
+
 //cart logic 
 
 // Cart
@@ -752,6 +753,13 @@ const orderForm = ref<TOrder>({
 watch(() => orderForm.value.deliveryFee, (newFee) => {
     orderForm.value.totalAmount = cartTotal.value + (newFee || 0);
 });
+
+// Reset delivery fee and location when cart changes
+watch(cart, () => {
+    orderForm.value.location = "";
+    orderForm.value.deliveryFee = 0;
+    orderForm.value.totalAmount = cartTotal.value;
+}, { deep: true });
 
 async function handleSubmitOrder() {
     orderLoading.value = true;
