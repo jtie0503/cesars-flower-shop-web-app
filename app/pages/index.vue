@@ -768,6 +768,8 @@ function addToCart(product: TProduct){
   pendingProduct.value = product;
   pendingNote.value ="";
   pendingQty.value =1;
+  pendingWrapper.value = '';     
+  pendingRibbon.value = null;
   addToCartDialog.value = true;
 }
 
