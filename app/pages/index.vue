@@ -354,22 +354,29 @@
       <p v-if="pendingWrapper" class="text-caption text-grey mb-3">Selected: {{ pendingWrapper }}</p>
 
       <!-- Ribbon Design -->
+     <!-- Ribbon Design -->
       <p class="text-body-2 font-weight-bold mb-2">🎀 Ribbon Design (optional)</p>
-            <div class="d-flex flex-wrap gap-2 mb-4">
-              <v-avatar
-                v-for="r in ribbons"
-                :key="r.name"
-                size="48"
-                :style="{
-                  border: pendingRibbon?.name === r.name ? '3px solid #FF8F00' : '2px solid #ccc',
-                  cursor: 'pointer'
-                }"
-                @click="pendingRibbon = pendingRibbon?.name === r.name ? null : r"
-              >
-                <v-img :src="r.url" cover />
-              </v-avatar>
-            </div>
-      <p v-if="pendingRibbon" class="text-caption text-grey mb-3">Selected: {{ pendingRibbon.name }}</p>
+      <div class="d-flex flex-wrap gap-2 mb-4">
+        <div
+          v-for="r in ribbons"
+          :key="r.name"
+          class="d-flex flex-column align-center"
+          style="width: 60px; cursor: pointer;"
+          @click="pendingRibbon = pendingRibbon?.name === r.name ? null : r"
+        >
+          <v-avatar
+            size="48"
+            :style="{
+              border: pendingRibbon?.name === r.name ? '3px solid #FF8F00' : '2px solid #ccc',
+            }"
+          >
+            <v-img :src="r.url" cover />
+          </v-avatar>
+          <span class="text-caption text-center mt-1" style="font-size: 9px; line-height: 1.2;">
+            {{ r.name }}
+          </span>
+        </div>
+      </div>
 
       <v-textarea
         v-model="pendingNote"
