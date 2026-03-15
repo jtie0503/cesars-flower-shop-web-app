@@ -336,6 +336,41 @@
         </v-btn>
       </div>
 
+       <!-- Wrapper Color -->
+      <p class="text-body-2 font-weight-bold mb-2">🎨 Wrapper Color (optional)</p>
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <v-avatar
+              v-for="w in wrapperColors"
+              :key="w.name"
+              size="48"
+              :style="{
+                backgroundColor: w.color,
+                border: pendingWrapper === w.name ? '3px solid #FF8F00' : '2px solid #ccc',
+                cursor: 'pointer'
+              }"
+              @click="pendingWrapper = pendingWrapper === w.name ? '' : w.name"
+            />
+          </div>
+      <p v-if="pendingWrapper" class="text-caption text-grey mb-3">Selected: {{ pendingWrapper }}</p>
+
+      <!-- Ribbon Design -->
+      <p class="text-body-2 font-weight-bold mb-2">🎀 Ribbon Design (optional)</p>
+            <div class="d-flex flex-wrap gap-2 mb-4">
+              <v-avatar
+                v-for="r in ribbons"
+                :key="r.name"
+                size="48"
+                :style="{
+                  border: pendingRibbon?.name === r.name ? '3px solid #FF8F00' : '2px solid #ccc',
+                  cursor: 'pointer'
+                }"
+                @click="pendingRibbon = pendingRibbon?.name === r.name ? null : r"
+              >
+                <v-img :src="r.url" cover />
+              </v-avatar>
+            </div>
+      <p v-if="pendingRibbon" class="text-caption text-grey mb-3">Selected: {{ pendingRibbon.name }}</p>
+
       <v-textarea
         v-model="pendingNote"
         label="Card Message(optional)"
@@ -668,6 +703,35 @@ const cartDrawer = ref(false);
 const selectedCategory = ref("");
 const categories = ["Flower Boquet", "Flat Spray", "Flower Basket", "Funeral Wreath", "Flower Pot"];
 
+// Wrapper colors
+const wrapperColors = [
+    { name: "White", color: "#FFFFFF" },
+    { name: "Pink", color: "#FFB6C1" },
+    { name: "Red", color: "#FF0000" },
+    { name: "Purple", color: "#800080" },
+    { name: "Gold", color: "#FFD700" },
+    { name: "Green", color: "#228B22" },
+    { name: "Blue", color: "#4169E1" },
+    { name: "Black", color: "#000000" },
+];
+
+// Ribbon designs
+const ribbons = [
+    { name: "Striped Grosgrain Ribbon", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547247/Striped_Grosgrain_Ribbon_gnsvjy.png" },
+    { name: "Pink Plaid Ribbon", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547257/Pink_plaid_ribbon_black_silver_metallic_uea1vf.png" },
+    { name: "Satin Ribbon with Gold Edge", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547264/Satin_Ribbon_with_Gold_Edge_kicukg.png" },
+    { name: "Red grosgrain ribbon with white stripes", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547276/Red_grosgrain_ribbon_with_white_stripes_ffolvy.png" },
+    { name: "Metallic Plaid Grosgrain Ribbon", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547283/Metallic_Plaid_Grosgrain_Ribbon_x9n7le.png" },
+    { name: "Gold glitterfoil i love you", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547292/Gold_glitterfoil_i_love_you_uzzzpc.png" },
+    { name: "White thin stripes", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547298/White_thin_stripes_somial.png" },
+    { name: "Satin Ribbon Blue with Gold Edge", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547303/Satin_Ribbon_Blue_with_Gold_Edge_g2yehd.png" },
+    { name: "White grosgrain base", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547319/White_grosgrain_base_yykfok.png" },
+    { name: "Yellowlime polka dots", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547325/Yellowlime_polka_dots_e1kety.png" },
+    { name: "Dark Green Jacquard Ribbon with Rose", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547331/Dark_Green_Jacquard_Ribbon_with_Rose_qxtck5.png" },
+    { name: "Baby blue satin polka dot ribbon", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547338/Baby_blue_satin_polka_dot_ribbon_pi4u3j.png" },
+    { name: "Magentahot pink at light purple dots", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547342/Magentahot_pink_at_light_purple_dots_umczv6.png" },
+];
+
 const { getAll } = useProduct();
 const products = ref<TProduct[]>([]);
 
@@ -687,7 +751,7 @@ watchEffect(() => {
 //cart logic 
 
 // Cart
-type TCartItem = TProduct & { quantity: number; note:string };
+type TCartItem = TProduct & { quantity: number; note:string,wrapper: string; ribbon: string; ribbonUrl: string };
 const cart = ref<TCartItem[]>([]);
 
 const addToCartDialog = ref(false);
@@ -713,8 +777,20 @@ function confirmAddToCart() {
   if (existing) {
     existing.quantity += pendingQty.value;
     if (pendingNote.value) existing.note = pendingNote.value;
+    if(pendingWrapper.value) existing.wrapper = pendingWrapper.value;
+    if(pendingRibbon.value){
+      existing.ribbon = pendingRibbon.value.name;
+      existing.ribbonUrl = pendingRibbon.value.url;
+    }
   } else {
-    cart.value.push({ ...product, quantity: pendingQty.value, note: pendingNote.value });
+    cart.value.push({ ...product,
+                         quantity: pendingQty.value,
+                         note: pendingNote.value,
+                         wrapper: pendingWrapper.value,
+                         ribbon: pendingRibbon.value?.name || '',
+                         ribbonUrl: pendingRibbon.value?.url || '',
+                        
+                        });
   }
   addToCartDialog.value = false;
   addedSnackbar.value = true;
@@ -773,6 +849,9 @@ async function handleSubmitOrder() {
                 price: item.price,
                 quantity: item.quantity,
                 note: item.note || '',
+                wrapper: item.wrapper || '',      
+                ribbon: item.ribbon || '',        
+                ribbonUrl: item.ribbonUrl || '', 
             })),
             totalAmount: cartTotal.value + (orderForm.value.deliveryFee || 0),
             deliveryFee: orderForm.value.deliveryFee || 0,
@@ -851,6 +930,11 @@ async function handleContactSubmit() {
   }
 }
 
+
+// wrappers & ribbons
+
+const pendingWrapper = ref('');
+const pendingRibbon = ref<{ name: string; url: string } | null>(null);
 </script>
 
 <style scoped>

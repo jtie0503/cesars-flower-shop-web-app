@@ -10,6 +10,9 @@ type TOrder = {
         price: number;
         quantity: number;
         note?: string;
+        wrapper?: string;    
+        ribbon?: string;     
+        ribbonUrl?: string;  
     }[];
     totalAmount: number;
     note?: string;
