@@ -66,6 +66,12 @@
                         <div v-if="item.note" class="mt-1">
                             <span class="text-caption text-grey-darken-1 font-italic">📝 {{ item.note }}</span>
                         </div>
+                        <div v-if="item.wrapper" class="mt-1">
+                            <span class="text-caption text-grey-darken-1">🎨 Wrapper: {{ item.wrapper }}</span>
+                        </div>
+                        <div v-if="item.ribbon" class="mt-1">
+                            <span class="text-caption text-grey-darken-1">🎀 Ribbon: {{ item.ribbon }}</span>
+                        </div>
                     </v-card>
                 </v-col>
                 <!-- Current Status chip -->
