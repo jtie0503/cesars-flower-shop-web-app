@@ -724,19 +724,19 @@ const wrapperColors = [
 
 // Ribbon designs
 const ribbons = [
-    { name: "Striped Grosgrain Ribbon", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547247/Striped_Grosgrain_Ribbon_gnsvjy.png" },
-    { name: "Pink Plaid Ribbon", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547257/Pink_plaid_ribbon_black_silver_metallic_uea1vf.png" },
-    { name: "Satin Ribbon with Gold Edge", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547264/Satin_Ribbon_with_Gold_Edge_kicukg.png" },
-    { name: "Red grosgrain ribbon with white stripes", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547276/Red_grosgrain_ribbon_with_white_stripes_ffolvy.png" },
-    { name: "Metallic Plaid Grosgrain Ribbon", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547283/Metallic_Plaid_Grosgrain_Ribbon_x9n7le.png" },
-    { name: "Gold glitterfoil i love you", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547292/Gold_glitterfoil_i_love_you_uzzzpc.png" },
-    { name: "White thin stripes", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547298/White_thin_stripes_somial.png" },
-    { name: "Satin Ribbon Blue with Gold Edge", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547303/Satin_Ribbon_Blue_with_Gold_Edge_g2yehd.png" },
-    { name: "White grosgrain base", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547319/White_grosgrain_base_yykfok.png" },
-    { name: "Yellowlime polka dots", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547325/Yellowlime_polka_dots_e1kety.png" },
-    { name: "Dark Green Jacquard Ribbon with Rose", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547331/Dark_Green_Jacquard_Ribbon_with_Rose_qxtck5.png" },
-    { name: "Baby blue satin polka dot ribbon", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547338/Baby_blue_satin_polka_dot_ribbon_pi4u3j.png" },
-    { name: "Magentahot pink at light purple dots", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547342/Magentahot_pink_at_light_purple_dots_umczv6.png" },
+    { name: "Striped", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547247/Striped_Grosgrain_Ribbon_gnsvjy.png" },
+    { name: "Pink Plaid", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547257/Pink_plaid_ribbon_black_silver_metallic_uea1vf.png" },
+    { name: "Satin Gold", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547264/Satin_Ribbon_with_Gold_Edge_kicukg.png" },
+    { name: "Red Stripe", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547276/Red_grosgrain_ribbon_with_white_stripes_ffolvy.png" },
+    { name: "Metallic", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547283/Metallic_Plaid_Grosgrain_Ribbon_x9n7le.png" },
+    { name: "Gold Love", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547292/Gold_glitterfoil_i_love_you_uzzzpc.png" },
+    { name: "White Thin", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547298/White_thin_stripes_somial.png" },
+    { name: "Satin Blue", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547303/Satin_Ribbon_Blue_with_Gold_Edge_g2yehd.png" },
+    { name: "White Base", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547319/White_grosgrain_base_yykfok.png" },
+    { name: "Lime Polka", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547325/Yellowlime_polka_dots_e1kety.png" },
+    { name: "Dark Rose", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547331/Dark_Green_Jacquard_Ribbon_with_Rose_qxtck5.png" },
+    { name: "Baby Blue", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547338/Baby_blue_satin_polka_dot_ribbon_pi4u3j.png" },
+    { name: "Magenta", url: "https://res.cloudinary.com/dlg4lve3a/image/upload/v1773547342/Magentahot_pink_at_light_purple_dots_umczv6.png" },
 ];
 
 const { getAll } = useProduct();
