@@ -336,57 +336,61 @@
         </v-btn>
       </div>
 
-       <!-- Wrapper Color -->
-      <p class="text-body-2 font-weight-bold mb-2">🎨 Wrapper Color (optional)</p>
-          <div class="d-flex flex-wrap gap-2 mb-4">
-            <v-avatar
-              v-for="w in wrapperColors"
-              :key="w.name"
-              size="48"
-              :style="{
-                backgroundColor: w.color,
-                border: pendingWrapper === w.name ? '3px solid #FF8F00' : '2px solid #ccc',
-                cursor: 'pointer'
-              }"
-              @click="pendingWrapper = pendingWrapper === w.name ? '' : w.name"
-            />
-          </div>
-      <p v-if="pendingWrapper" class="text-caption text-grey mb-3">Selected: {{ pendingWrapper }}</p>
-
-      <!-- Ribbon Design -->
-     <!-- Ribbon Design -->
-      <p class="text-body-2 font-weight-bold mb-2">🎀 Ribbon Design (optional)</p>
-      <div class="d-flex flex-wrap gap-2 mb-4">
-        <div
-          v-for="r in ribbons"
-          :key="r.name"
-          class="d-flex flex-column align-center"
-          style="width: 60px; cursor: pointer;"
-          @click="pendingRibbon = pendingRibbon?.name === r.name ? null : r"
-        >
+      <!-- Wrapper + Ribbon — Bouquet only -->
+      <template v-if="pendingProduct?.category === 'Flower Boquet'">
+        <p class="text-body-2 font-weight-bold mb-2">🎨 Wrapper Color (optional)</p>
+        <div class="d-flex flex-wrap gap-2 mb-4">
           <v-avatar
+            v-for="w in wrapperColors"
+            :key="w.name"
             size="48"
             :style="{
-              border: pendingRibbon?.name === r.name ? '3px solid #FF8F00' : '2px solid #ccc',
+              backgroundColor: w.color,
+              border: pendingWrapper === w.name ? '3px solid #FF8F00' : '2px solid #ccc',
+              cursor: 'pointer'
             }"
-          >
-            <v-img :src="r.url" cover />
-          </v-avatar>
-          <span class="text-caption text-center mt-1" style="font-size: 9px; line-height: 1.2;">
-            {{ r.name }}
-          </span>
+            @click="pendingWrapper = pendingWrapper === w.name ? '' : w.name"
+          />
         </div>
-      </div>
+        <p v-if="pendingWrapper" class="text-caption text-grey mb-3">Selected: {{ pendingWrapper }}</p>
 
+        <p class="text-body-2 font-weight-bold mb-2">🎀 Ribbon Design (optional)</p>
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <div
+            v-for="r in ribbons"
+            :key="r.name"
+            class="d-flex flex-column align-center"
+            style="width: 60px; cursor: pointer;"
+            @click="pendingRibbon = pendingRibbon?.name === r.name ? null : r"
+          >
+            <v-avatar size="48" :style="{ border: pendingRibbon?.name === r.name ? '3px solid #FF8F00' : '2px solid #ccc' }">
+              <v-img :src="r.url" cover />
+            </v-avatar>
+            <span class="text-caption text-center mt-1" style="font-size: 9px; line-height: 1.2;">{{ r.name }}</span>
+          </div>
+        </div>
+        <p v-if="pendingRibbon" class="text-caption text-grey mb-3">Selected: {{ pendingRibbon.name }}</p>
+      </template>
+
+      <!-- Note/Message field -->
       <v-textarea
         v-model="pendingNote"
-        label="Card Message(optional)"
-        placeholder="e.g. Happy Aniverssary,Happy Birthday..."
+        :label="pendingProduct?.category === 'Flower Boquet' 
+          ? 'Card Message (optional)' 
+          : pendingProduct?.category === 'Funeral Wreath'
+          ? 'Condolence Message (optional)'
+          : 'Note (optional)'"
+        :placeholder="pendingProduct?.category === 'Funeral Wreath' 
+          ? 'e.g. Our Deepest Sympathy, With Condolences...' 
+          : pendingProduct?.category === 'Flower Boquet'
+          ? 'e.g. Happy Anniversary, Happy Birthday...'
+          : 'e.g. Special instructions...'"
         variant="outlined"
         density="compact"
         rows="2"
         hide-details
       />
+      
     </v-card-text>
 
    <v-card-actions class="pa-4 pt-0">
