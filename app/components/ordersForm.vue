@@ -165,6 +165,20 @@
                         />
                     </v-col>
 
+                    <!-- Payment Method -->
+                    <v-col cols="12" class="mb-2">
+                        <v-radio-group 
+                            v-model="formModel.paymentMethod" 
+                            label="Payment Method"
+                            :rules="[requiredRule]"
+                        >
+                            <v-radio label="Cash on Delivery (COD)" value="cod" />
+                            <v-radio label="GCash / Card (PayMongo) — Coming Soon" value="gcash" disabled />
+                        </v-radio-group>
+                    </v-col>
+
+                    <v-divider class="mt-2 mb-3" />
+
                     <!-- Total Summary -->
                     <v-divider class="mt-2 mb-3" />
                     <v-row no-gutters class="px-1">

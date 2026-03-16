@@ -22,4 +22,5 @@ type TOrder = {
     updatedAt?: Date;
     location?: string;     
     deliveryFee?: number;
+    paymentMethod?: string;
 }
