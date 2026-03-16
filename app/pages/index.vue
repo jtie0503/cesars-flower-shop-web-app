@@ -874,7 +874,7 @@ async function handleSubmitOrder() {
         cart.value = [];
         resetOrderForm();
         orderLoading.value = false;
-        navigateTo('/order-confirmation')
+        navigateTo('/orderConfirmation')
     } catch (error) {
         console.error("Error:", error);
         orderLoading.value = false;
