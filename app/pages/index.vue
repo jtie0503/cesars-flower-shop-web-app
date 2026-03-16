@@ -859,6 +859,7 @@ async function handleSubmitOrder() {
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity,
+                imageUrl: item.imageUrl,
                 note: item.note || '',
                 wrapper: item.wrapper || '',      
                 ribbon: item.ribbon || '',        
@@ -869,7 +870,22 @@ async function handleSubmitOrder() {
             status: "pending",
         });
          const data = useState('order-form')
-        data.value = orderForm.value;
+         data.value = {
+                ...orderForm.value,
+                items: cart.value.map(item => ({
+                    productId: item._id!,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity,
+                    imageUrl: item.imageUrl,
+                    note: item.note || '',
+                    wrapper: item.wrapper || '',
+                    ribbon: item.ribbon || '',
+                    ribbonUrl: item.ribbonUrl || '',
+                })),
+                totalAmount: cartTotal.value + (orderForm.value.deliveryFee || 0),
+                deliveryFee: orderForm.value.deliveryFee || 0,
+            }
         checkoutDialog.value = false;
         cart.value = [];
         resetOrderForm();
