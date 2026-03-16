@@ -7,9 +7,20 @@
                 <v-icon size="64" color="green">mdi-check-circle</v-icon>
                 <h1 class="text-h5 font-weight-bold mt-3">Thank you, {{ data.name }}! 🌸</h1>
                 <p class="text-grey mt-2">Your order has been received!</p>
-                <v-chip color="amber-darken-2" class="mt-2">
-                    📧 Check your email for your order details
-                </v-chip>
+               
+            </v-col>
+
+            <!-- Email Alert -->
+            <v-col cols="12">
+                <v-alert
+                    type="info"
+                    color="amber-darken-2"
+                    variant="tonal"
+                    class="mb-4"
+                    icon="mdi-email"
+                >
+                    📧 Check your email for your order details!
+                </v-alert>
             </v-col>
 
             <!-- Order Summary Card -->
@@ -34,7 +45,7 @@
                                 <v-img
                                     :src="item.imageUrl || '/logo.png.png'"
                                     height="60"
-                                    cover
+                                    contain
                                     rounded="lg"
                                 />
                             </v-col>
