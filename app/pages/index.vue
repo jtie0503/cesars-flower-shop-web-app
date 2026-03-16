@@ -410,9 +410,7 @@
 
 <!--SUCCESS CHECKOUT -->
 
-<v-snackbar v-model="orderSuccess" color="green" timeout="4000">
-    ✅ Order placed! Check your email for confirmation. 🌸
-</v-snackbar>
+
 
 <v-snackbar v-model="contactSuccess" color="green" timeout="4000">
     ✅ Message sent! We'll get back to you soon. 🌸
@@ -870,11 +868,13 @@ async function handleSubmitOrder() {
             deliveryFee: orderForm.value.deliveryFee || 0,
             status: "pending",
         });
+         const data = useState('order-form')
+        data.value = orderForm.value;
         checkoutDialog.value = false;
         cart.value = [];
         resetOrderForm();
-        orderSuccess.value = true;
         orderLoading.value = false;
+        navigateTo('/order-confirmation')
     } catch (error) {
         console.error("Error:", error);
         orderLoading.value = false;
@@ -900,7 +900,7 @@ function resetOrderForm() {
 
 // SUCCEESS CHECK OUT
 
-const orderSuccess = ref(false);
+
 const orderLoading = ref(false);
 
 //for costumize
