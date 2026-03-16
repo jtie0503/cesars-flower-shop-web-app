@@ -7,7 +7,7 @@
         </v-toolbar>
         
 
-        <v-card-text style="max-height:100vh;overflow: auto">
+        <v-card-text style="max-height:70vh;overflow: auto">
             <v-row v-if="mode === 'view'" no-gutters>
 
                 <v-col cols="12" class="text-subtitle-1 font-weight-bold mb-2">
