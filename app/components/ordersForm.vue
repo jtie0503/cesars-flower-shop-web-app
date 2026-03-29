@@ -132,7 +132,7 @@
                     <v-col cols="12" class="mb-2">
                         <v-text-field
                             v-model="formModel.address"
-                            label="Street / House No."
+                            label="Street / House No./Brgy"
                             :rules="[requiredRule]"
                         />
                     </v-col>
@@ -149,9 +149,7 @@
                         />
                     </v-col>
 
-                    <v-col cols="6" class="mb-2">
-                        <v-text-field v-model="formModel.note" label="Note" />
-                    </v-col>
+                   
                     <v-col cols="6" class="mb-2">
                         <v-text-field v-model="formModel.deliveryDate" label="Delivery Date" type="date" :rules="[requiredRule]" />
                     </v-col>      
@@ -166,6 +164,10 @@
                         />
                     </v-col>
 
+                     <v-col cols="6" class="mb-2">
+                        <v-text-field v-model="formModel.note" label="Note" />
+                    </v-col>
+
                     <!-- Payment Method -->
                     <v-col cols="12" class="mb-2">
                         <v-radio-group 
@@ -174,7 +176,11 @@
                             :rules="[requiredRule]"
                         >
                             <v-radio label="Cash on Delivery (COD)" value="cod" />
-                            <v-radio label="GCash " value="gcash"  />
+                            <v-radio 
+                                label="GCash / Card (PayMongo) — Coming Soon" 
+                                value="gcash" 
+                                disabled 
+                            />
                         </v-radio-group>
                     </v-col>
 
