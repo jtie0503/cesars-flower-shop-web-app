@@ -895,7 +895,7 @@ async function handleSubmitOrder() {
 
         if(paymentMethod === "gcash"){
 
-          const payment = await $fetch('/api/v1/payment/checkout/', {
+          const payment = await $fetch('/api/v1/payment/checkout', {
             method:'POST',
             body: {
                     amount: totalAmount,
