@@ -129,11 +129,23 @@
                         />
                     </v-col>
 
-                    <v-col cols="6" class="mb-2">
+                    <v-col cols="12" class="mb-2">
                         <v-text-field
-                        v-model="formModel.address"
-                        label="Address"
-                        :rules="[requiredRule]"
+                            v-model="formModel.address"
+                            label="Street / House No."
+                            :rules="[requiredRule]"
+                        />
+                    </v-col>
+
+                   <v-col cols="6" class="mb-2">
+                        <v-select
+                            v-model="formModel.location"
+                            :items="deliveryLocations"
+                            item-title="label"
+                            item-value="value"
+                            label="City / Municipality"
+                            :rules="[requiredRule]"
+                            @update:modelValue="updateDeliveryFee"
                         />
                     </v-col>
 
@@ -143,17 +155,6 @@
                     <v-col cols="6" class="mb-2">
                         <v-text-field v-model="formModel.deliveryDate" label="Delivery Date" type="date" :rules="[requiredRule]" />
                     </v-col>      
-                    <v-col cols="6" class="mb-2">
-                        <v-select
-                            v-model="formModel.location"
-                            :items="deliveryLocations"
-                            item-title="label"
-                            item-value="value"
-                            label="Delivery Location"
-                            :rules="[requiredRule]"
-                            @update:modelValue="updateDeliveryFee"
-                        />
-                    </v-col>
 
                     <v-col cols="6" class="mb-2">
                         <v-text-field
@@ -173,7 +174,7 @@
                             :rules="[requiredRule]"
                         >
                             <v-radio label="Cash on Delivery (COD)" value="cod" />
-                            <v-radio label="GCash / Card (PayMongo) — Coming Soon" value="gcash" disabled />
+                            <v-radio label="GCash " value="gcash"  />
                         </v-radio-group>
                     </v-col>
 

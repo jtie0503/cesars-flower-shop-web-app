@@ -870,6 +870,8 @@ async function handleSubmitOrder() {
             status: "pending",
         });
          const data = useState('order-form')
+         const paymentMethod = orderForm.value.paymentMethod
+         const totalAmount = cartTotal.value + (orderForm.value.deliveryFee || 0)
          data.value = {
                 ...orderForm.value,
                 items: cart.value.map(item => ({
@@ -890,7 +892,25 @@ async function handleSubmitOrder() {
         cart.value = [];
         resetOrderForm();
         orderLoading.value = false;
-        navigateTo('/orderConfirmation')
+
+        if(paymentMethod === "gcash"){
+
+          const payment = await $fetch('/api/v1/payment/checkout/', {
+            method:'POST',
+            body: {
+                    amount: totalAmount,
+                    description: 'Cesar\'s Flower Shop Order'
+            }
+
+          })as any
+           // redirect to GCash
+            window.location.href = payment.checkoutUrl
+
+        }else{
+           navigateTo('/orderConfirmation')
+        }
+
+       
     } catch (error) {
         console.error("Error:", error);
         orderLoading.value = false;
