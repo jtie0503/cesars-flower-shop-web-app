@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "/api/v1/upload/**": { proxy: `${process.env.API_CORE}/api/v1/upload/**` },
      "/api/v1/auth/**": { proxy: `${process.env.API_CORE}/api/v1/auth/**` },
      "/api/v1/contact/**": { proxy: `${process.env.API_CORE}/api/v1/contact/**` },
+     "/api/v1/payment/**": { proxy: `${process.env.API_CORE}/api/v1/payment/**` },
 },
   modules: ['vuetify-nuxt-module']
 })
