@@ -324,6 +324,9 @@ const motorcycleRates = [
     { label: "Makati", value: "makati", fee: 180 },
     { label: "Manila", value: "manila", fee: 150 },
     { label: "Quezon City", value: "qc", fee: 250 },
+    { label: "Pasig City", value: "pasig", fee: 150 },
+    { label: "Mandaluyong City", value: "mandaluyong", fee: 140 },
+    { label: "Caloocan  City", value: "caloocan", fee: 150 },
 ];
 
 const sedanRates = [
@@ -335,6 +338,9 @@ const sedanRates = [
     { label: "Makati", value: "makati", fee: 400 },
     { label: "Manila", value: "manila", fee: 450 },
     { label: "Quezon City", value: "qc", fee: 550 },
+    { label: "Pasig City", value: "pasig", fee: 370 },
+    { label: "Mandaluyong City", value: "mandaluyong", fee: 380 },
+    { label: "Caloocan  City", value: "caloocan", fee: 380 },
 ];
 
 const deliveryLocations = computed(() => 
