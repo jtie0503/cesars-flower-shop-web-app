@@ -278,7 +278,7 @@
            v-model:form="selectedDelivery" 
             @edit="handleDeliveryEdit()"
             @delete="handleDeliveryDelete()"
-            @close="dialogView = false"
+            @close="deliveryDialogView = false"
           />
         </v-dialog>
         
@@ -289,7 +289,7 @@
             mode="edit"
            v-model:form="selectedDelivery" 
             @submit:update="submitDeliveryEdit()"
-           @close="deliveryDialogView = false"
+           @cancel="dialogDeliveryEdit = false"
           />
         </v-dialog>
 
@@ -300,8 +300,8 @@
             <v-card-text>Are you sure you want to delete this Location?</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn variant="text" @click="dialogDelete = false">Cancel</v-btn>
-              <v-btn variant="flat" color="red" @click="submitDeliveryDelete()">Delete</v-btn>
+               <v-btn variant="text" @click="dialogDeliveryDelete = false">Cancel</v-btn>
+               <v-btn variant="flat" color="red" @click="submitDeliveryDelete()">Delete</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>

@@ -343,7 +343,7 @@ const deliveryLocations = computed(() =>
 function updateDeliveryFee(value: string) {
     const selected = deliveryLocations.value.find((l: any) => l.value === value);
     if (selected) {
-        formModel.value.deliveryFee = selected.fee;
+        formModel.value.deliveryFee = Number(selected.fee);
     }
 }
 </script>
