@@ -40,6 +40,7 @@
                             <v-text-field
                             v-model="formModel.motorcycleFee"
                             label="Motorcycle Fee"
+                            type="number"
                             :rules="[requiredRule]"
                             />
                         </v-col>

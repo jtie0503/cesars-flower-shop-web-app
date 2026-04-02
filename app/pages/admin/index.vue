@@ -289,7 +289,7 @@
             mode="edit"
            v-model:form="selectedDelivery" 
             @submit:update="submitDeliveryEdit()"
-            @cancel="dialogEdit = false"
+           @close="deliveryDialogView = false"
           />
         </v-dialog>
 
