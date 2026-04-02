@@ -12,6 +12,7 @@
           ></v-list-item>
           <v-list-item prepend-icon="mdi-flower" title="PRODUCTS"  @click="activeTab = 'products'"></v-list-item>
           <v-list-item prepend-icon="mdi-clipboard-list" title="ORDERS"  @click="activeTab = 'orders'"></v-list-item>
+          <v-list-item prepend-icon="mdi-truck" title="DELIVERY FEES" @click="activeTab = 'delivery'"></v-list-item>
         </v-list>
 
         <template v-slot:append>
@@ -23,6 +24,7 @@
         </template>
       </v-navigation-drawer>
       <v-main style="min-height: 100vh" >
+
 
         <!--Product Section-->
         <v-row v-if ="activeTab === 'products'" no-gutters class="pa-4">
@@ -196,6 +198,116 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+
+
+                  <!--Delivery Fees-->
+
+        <v-row v-if ="activeTab === 'delivery'" no-gutters class="pa-4">
+          <v-col cols="12" class="mb-3">
+            <v-row no-gutters align="center">
+              <v-btn
+                class="text-none mr-2"
+                rounded="pill"
+                variant="tonal"
+                size="large"
+                @click="handleDeliveryDialogAdd()"
+              >
+                Delivery Location Add
+              </v-btn>
+            </v-row>          
+          </v-col>
+
+          <v-col cols="12">
+            <v-card
+              width="100%"
+              variant="outlined"
+              border="thin"
+              rounded="lg"
+              :loading="loading"
+            >
+              <v-toolbar density="compact" color="grey-lighten-4">
+                <template #prepend>
+                  <v-btn>
+                    <v-icon>mdi-refresh</v-icon>
+                  </v-btn>
+                </template>
+
+               
+
+                <template #append>
+                  <span class="mr-2 text-caption">{{ deliveryPageRange }}</span>
+                  <v-btn icon density="comfortable" :disabled="page === 1" @click="prevDeliveryPage()">
+                      <v-icon>mdi-chevron-left</v-icon>
+                  </v-btn>
+                  <v-btn icon density="comfortable" :disabled="page === pages" @click="nextDeliveryPage()">
+                      <v-icon>mdi-chevron-right</v-icon>
+                  </v-btn>
+              </template>
+              </v-toolbar>
+
+              <v-data-table
+                :headers="deliveryHeaders"
+                :items="deliveryItems"
+                item-value="_id"
+                items-per-page="10"
+                hide-default-footer
+                style="max-height: calc(100vh - 200px)"
+                @click:row="(_: any, { item }: { item: TDelivery }) => handleDeliveryRowClick(item)"
+              >
+              </v-data-table>
+            </v-card>
+          </v-col>
+        </v-row>
+         
+        <!--ADD DIALOG / Delivery-->
+        <v-dialog v-model="dialogDeliveryAdd" max-width="500" persistent>
+          <delivery-form
+            title="Add Delivery Location"
+            mode="add"
+            v-model:form="deliveryFormData"
+            @submit:add="submitDeliveryAdd()"
+            @cancel="dialogDeliveryAdd = false"
+          />
+        </v-dialog>
+
+        <!--VIEW DIALOG / PRODUCTS-->
+        <v-dialog v-model="deliveryDialogView" max-width="500" persistent>
+          <delivery-form
+            title="Product Details"
+            mode="view"
+           v-model:form="selectedDelivery" 
+            @edit="handleDeliveryEdit()"
+            @delete="handleDeliveryDelete()"
+            @close="dialogView = false"
+          />
+        </v-dialog>
+        
+         <!--EDIT DIALOG / PRODUCTS-->
+        <v-dialog v-model="dialogDeliveryEdit" max-width="500" persistent>
+          <delivery-form
+            title="Edit Product"
+            mode="edit"
+           v-model:form="selectedDelivery" 
+            @submit:update="submitDeliveryEdit()"
+            @cancel="dialogEdit = false"
+          />
+        </v-dialog>
+
+        <!--DELETE DIALOG / PRODUCTS-->
+        <v-dialog v-model="dialogDeliveryDelete" max-width="400" persistent>
+          <v-card>
+            <v-card-title class="text-h6">Confirm Deletion</v-card-title>
+            <v-card-text>Are you sure you want to delete this Location?</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn variant="text" @click="dialogDelete = false">Cancel</v-btn>
+              <v-btn variant="flat" color="red" @click="submitDeliveryDelete()">Delete</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+
+
       </v-main>
     </v-layout>
   </v-card>
@@ -330,6 +442,7 @@ const orderPageRange = ref("-- - -- of --");
 const orderPage = ref(1);
 const orderPages = ref(1);
 
+
 const orderHeaders = [
   { title: "Name", key: "name" },
   { title: "Email", key: "email" },
@@ -389,4 +502,102 @@ async function handleLogout() {
     token.value = null;
     await navigateTo("/login");
 }
+
+
+//Delivery
+const deliveryItems = ref<TDelivery[]>([]);
+const selectedDelivery= ref<TDelivery>({} as TDelivery);
+const deliveryDialogView = ref(false);
+const deliveryPageRange = ref("-- - -- of --");
+const deliveryPage = ref(1);
+const deliveryPages = ref(1);
+ const deliveryDialogConfirm = ref(false);
+ const dialogDeliveryAdd = ref(false);
+const dialogDeliveryEdit = ref(false);
+const dialogDeliveryDelete = ref(false);
+
+const deliveryHeaders = [
+  { title: "Location Name", key: "locationName" },
+  { title: "Motorcycle Fee", key: "motorcycleFee" },
+  { title: "Sedan Fee", key: "sedanFee" },
+
+];
+
+const deliveryFormData = ref<TDelivery>({ locationName: "", motorcycleFee: 0, sedanFee: 0 });
+const { add: addDelivery, deleteById: deleteDeliveryById, getAll: getAllDelivery, updateById: updateDeliveryById } = useDelivery();
+
+
+const {  data: deliveryData, refresh: refreshDelivery,  } = await useLazyAsyncData(
+  "get-delivery-locations",
+  () => getAllDelivery({ page: deliveryPage.value }),{ watch: [deliveryPage] }
+
+);
+
+watchEffect(() => {
+  if (deliveryData.value) {
+    deliveryItems.value = deliveryData.value.items;
+    deliveryPageRange.value = deliveryData.value.pageRange;
+    deliveryPages.value = deliveryData.value.pages;
+  }
+});
+
+function nextDeliveryPage() {
+  if (deliveryPage.value < deliveryPage.value) {
+    deliveryPage.value += 1;
+  }
+}
+
+function prevDeliveryPage() {
+  if (deliveryPage.value > 1) {
+    deliveryPage.value -= 1;
+  }
+} 
+function handleDeliveryRowClick(item: TDelivery) {
+  selectedDelivery.value = { ...item };
+  deliveryDialogView.value = true;
+}
+
+function handleDeliveryDialogAdd() {
+  deliveryFormData.value = { locationName: "", motorcycleFee: 0, sedanFee: 0 };
+  dialogDeliveryAdd.value = true;
+}
+
+async function submitDeliveryAdd() {
+  try {
+    await addDelivery(deliveryFormData.value);
+    dialogDeliveryAdd.value = false; 
+    await refreshDelivery();
+  } catch (error) { console.error("Error:", error); }
+}
+
+function handleDeliveryEdit() {
+  deliveryDialogView.value = false;
+   dialogDeliveryEdit.value = true;
+}
+
+async function submitDeliveryEdit() {
+  try {
+    await updateDeliveryById(selectedDelivery.value._id!, {
+      locationName: selectedDelivery.value.locationName,
+      motorcycleFee: selectedDelivery.value.motorcycleFee,
+      sedanFee: selectedDelivery.value.sedanFee,
+    });
+    dialogDeliveryEdit.value = false
+    await refreshDelivery();
+  } catch (error) { console.error("Error:", error); }
+}
+
+function handleDeliveryDelete() {
+  deliveryDialogView.value = false;  
+  dialogDeliveryDelete.value = true;
+}
+
+async function submitDeliveryDelete() {
+  try {
+    await deleteDeliveryById(selectedDelivery.value._id!);
+   dialogDeliveryDelete.value = false;
+    await refreshDelivery();
+  } catch (error) { console.error("Error:", error); }
+}
+
 </script>

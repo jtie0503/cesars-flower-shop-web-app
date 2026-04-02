@@ -299,7 +299,12 @@ const formModel = defineModel("form", {
     }),
 })
  
+const { getAll: getAllDelivery } = useDelivery()
 
+const { data: deliveryData } = await useLazyAsyncData(
+  'delivery-locations-form',
+  () => getAllDelivery()
+)
 
 // statusItems
 const statusItems = [
@@ -315,43 +320,30 @@ const requiredRule = (v: any) => !!v || "This field is required";
 //Transpo Fee
 
 
-const motorcycleRates = [
-    { label: "Within Paranaque", value: "paranaque", fee: 100 },
-    { label: "Las Pinas", value: "laspinas", fee: 120 },
-    { label: "Muntinlupa", value: "muntinlupa", fee: 150 },
-    { label: "Pasay", value: "pasay", fee: 150 },
-    { label: "Taguig", value: "taguig", fee: 170 },
-    { label: "Makati", value: "makati", fee: 180 },
-    { label: "Manila", value: "manila", fee: 150 },
-    { label: "Quezon City", value: "qc", fee: 250 },
-    { label: "Pasig City", value: "pasig", fee: 150 },
-    { label: "Mandaluyong City", value: "mandaluyong", fee: 140 },
-    { label: "Caloocan  City", value: "caloocan", fee: 150 },
-];
+const motorcycleRates = computed(() => 
+  deliveryData.value?.items.map((item: TDelivery) => ({
+    label: item.locationName,
+    value: item.locationName,
+    fee: item.motorcycleFee
+  })) ?? []
+)
 
-const sedanRates = [
-    { label: "Within Paranaque", value: "paranaque", fee: 200 },
-    { label: "Las Pinas", value: "laspinas", fee: 300 },
-    { label: "Muntinlupa", value: "muntinlupa", fee: 300 },
-    { label: "Pasay", value: "pasay", fee: 350 },
-    { label: "Taguig", value: "taguig", fee: 400 },
-    { label: "Makati", value: "makati", fee: 400 },
-    { label: "Manila", value: "manila", fee: 450 },
-    { label: "Quezon City", value: "qc", fee: 550 },
-    { label: "Pasig City", value: "pasig", fee: 370 },
-    { label: "Mandaluyong City", value: "mandaluyong", fee: 380 },
-    { label: "Caloocan  City", value: "caloocan", fee: 380 },
-];
+const sedanRates = computed(() => 
+  deliveryData.value?.items.map((item: TDelivery) => ({
+    label: item.locationName,
+    value: item.locationName,
+    fee: item.sedanFee
+  })) ?? []
+)
 
 const deliveryLocations = computed(() => 
-    props.hasFuneralWreath ? sedanRates : motorcycleRates
-);
+    props.hasFuneralWreath ? sedanRates.value : motorcycleRates.value
+)
 
 function updateDeliveryFee(value: string) {
-    const selected = deliveryLocations.value.find(l => l.value === value);
+    const selected = deliveryLocations.value.find((l: any) => l.value === value);
     if (selected) {
         formModel.value.deliveryFee = selected.fee;
     }
 }
-
 </script>
