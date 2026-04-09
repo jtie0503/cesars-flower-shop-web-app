@@ -311,6 +311,7 @@ const statusItems = [
      { label: "Pending", value: "pending" },
     { label: "Confirmed", value: "confirmed" },
     { label: "Delivered", value: "delivered" },
+    { label: "Out for Delivery", value: "out_for_delivery" },
 ]
 
 const isFormValid = ref(false);
