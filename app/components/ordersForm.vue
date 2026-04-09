@@ -303,7 +303,7 @@ const { getAll: getAllDelivery } = useDelivery()
 
 const { data: deliveryData } = await useLazyAsyncData(
   'delivery-locations-form',
-  () => getAllDelivery()
+  () => getAllDelivery({ limit: 100 })
 )
 
 // statusItems
