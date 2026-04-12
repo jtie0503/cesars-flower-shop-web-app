@@ -236,10 +236,10 @@
 
                 <template #append>
                   <span class="mr-2 text-caption">{{ deliveryPageRange }}</span>
-                  <v-btn icon density="comfortable" :disabled="page === 1" @click="prevDeliveryPage()">
+                  <v-btn icon density="comfortable" :disabled="deliveryPage === 1" @click="prevDeliveryPage()">
                       <v-icon>mdi-chevron-left</v-icon>
                   </v-btn>
-                  <v-btn icon density="comfortable" :disabled="page === pages" @click="nextDeliveryPage()">
+                  <v-btn icon density="comfortable" :disabled="deliveryPage  === deliveryPages" @click="nextDeliveryPage()">
                       <v-icon>mdi-chevron-right</v-icon>
                   </v-btn>
               </template>
