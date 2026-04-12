@@ -542,7 +542,7 @@ watchEffect(() => {
 });
 
 function nextDeliveryPage() {
-  if (deliveryPage.value < deliveryPage.value) {
+  if (deliveryPage.value < deliveryPages.value) {
     deliveryPage.value += 1;
   }
 }
